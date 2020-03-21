@@ -1,0 +1,91 @@
+
+
+#Install InfluxDB on CentOS 7
+
+
+[ncleetus@grafana ~]$wget https://dl.influxdata.com/influxdb/releases/influxdb-1.7.10.x86_64.rpm
+[ncleetus@grafana ~]$sudo yum localinstall influxdb-1.7.10.x86_64.rpm
+
+
+
+#Install Grafana on CentOS 7
+
+[ncleetus@grafana ~]$  sudo vi /etc/yum.repos.d/grafana.repo
+
+Copy the below content to your YUM repo
+
+[grafana]
+name=grafana
+baseurl=https://packages.grafana.com/oss/rpm
+repo_gpgcheck=1
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.grafana.com/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+
+[ncleetus@grafana ~]$sudo yum install grafana
+
+
+[ncleetus@grafana ~]$sudo systemctl daemon-reload
+[ncleetus@grafana ~]$sudo systemctl start grafana-server
+[ncleetus@grafana ~]$sudo systemctl status grafana-server
+[ncleetus@grafana ~]$sudo systemctl enable grafana-server
+
+By default Grafana will run on the port 3000. Make sure the port is available for use. 
+
+
+Try to access the URL http://IP:3000/    (admin/admin)
+
+
+
+#Install Telegraph
+
+
+[ncleetus@grafana ~]$wget https://dl.influxdata.com/telegraf/releases/telegraf-1.13.4-1.x86_64.rpm
+[ncleetus@grafana ~]$sudo yum localinstall telegraf-1.13.4-1.x86_64.rpm
+
+
+
+
+User creation in InfluxDB
+
+[vagrant@grafana software]$ sudo su
+[root@grafana software]# influx
+>CREATE USER "ncleetus" WITH PASSWORD 'admin' WITH ALL PRIVILEGES
+
+>SHOW USERS
+user     admin
+----     -----
+ncleetus true
+
+exit
+
+[root@grafana software]# vi /etc/influxdb/influxdb.conf
+
+Update the auth-enabled = true in http section "[http] section"  to true and uncomment the link.
+
+
+[root@grafana software]# vi /etc/telegraf/telegraf.conf
+Comment and configure the entries to point to the influxDB
+
+urls = ["http://127.0.0.1:8086"]
+database = "telegraf"
+retention_policy = ""
+username = "ncleetus"
+password = "admin"
+
+[root@grafana software]# sudo systemctl restart influxdb
+[root@grafana software]# sudo systemctl restart telegraf
+[root@grafana software]# sudo systemctl restart grafana-server
+
+Go to Grafana dashboard -> Create Datasource
+
+Choose "InfluxDB" and use the Influx DB URL (Exp:- http://<hostname>:8086). Default port is 8086   
+
+Scroll down and configure InfluxDB Details
+
+database           : telegraf
+user/password      : ncleetus/admin   
+
+
