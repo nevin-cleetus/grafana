@@ -11,6 +11,9 @@ under /etc/grafana/. Remove the ';' prefix to uncomment it and take the configur
 # Directory where grafana can store logs
 ;logs = /var/log/grafana
 
+You can also override the log file path while starting the server.
+
+./grafana-server cfg:default.paths.logs=/custom/path
 
 Database configuration:  See the [database] section to configure the DB instance
 
