@@ -1,0 +1,23 @@
+
+Troubleshooting Grafana
+
+
+Logs:- 
+
+Default log file location is "/var/log/grafana/grafana.log". This can be configured by modifying the "grafana.ini" file located
+under /etc/grafana/
+
+[root@grafana vagrant]# vi /etc/grafana/grafana.ini
+# Directory where grafana can store logs
+;logs = /var/log/grafana
+
+
+Database configuration:  See the [database] section to configure the DB instance
+
+
+
+
+
+
+
+
