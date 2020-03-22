@@ -5,7 +5,7 @@ Troubleshooting Grafana
 Logs:- 
 
 Default log file location is "/var/log/grafana/grafana.log". This can be configured by modifying the "grafana.ini" file located
-under /etc/grafana/
+under /etc/grafana/. Remove the ';' prefix to uncomment it and take the configuration into effect.
 
 [root@grafana vagrant]# vi /etc/grafana/grafana.ini
 # Directory where grafana can store logs
