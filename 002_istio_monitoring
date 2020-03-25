@@ -1,0 +1,12 @@
+
+Setup istio with Demo profile and Grafana and Prometheus will be enabled.
+
+Istio creates few dashboards by connecting to Prometheous
+
+
+Few additional graphs which could be useful to create and show in Grafana
+
+container_memory_cache{instance="kworker2",pod=~"rating.*"}
+container_memory_usage_bytes{instance="kworker2",pod=~"rating.*"}
+container_processes{instance="kworker2"}
+grpc_server_msg_received_total
